@@ -7,13 +7,12 @@
 #
 # Cluster needs: pip install transformers torch  (job library or %pip)
 
-from typing import Iterator
+from collections.abc import Iterator
 
 import pandas as pd
+from config import GOLD, RAW, spark_conf_for_adls
 from pyspark.sql import functions as F
 from pyspark.sql import types as T
-
-from config import spark_conf_for_adls, RAW, GOLD
 
 spark_conf_for_adls(spark, dbutils)  # noqa: F821
 

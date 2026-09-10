@@ -9,9 +9,8 @@
 
 import re
 
+from config import RAW, spark_conf_for_adls
 from pyspark.sql import functions as F
-
-from config import spark_conf_for_adls, RAW
 
 spark_conf_for_adls(spark, dbutils)  # noqa: F821
 

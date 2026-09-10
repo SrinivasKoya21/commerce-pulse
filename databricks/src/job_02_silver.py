@@ -4,10 +4,9 @@
 # so bronze->silver keeps exactly-once semantics via the checkpoint,
 # and foreachBatch + MERGE makes re-runs idempotent.
 
+from config import BRONZE, CHECKPOINTS, SILVER, spark_conf_for_adls
 from delta.tables import DeltaTable
-
-from config import spark_conf_for_adls, BRONZE, SILVER, CHECKPOINTS
-from transforms import parse_bronze_events, clean_events, split_orders
+from transforms import clean_events, parse_bronze_events, split_orders
 
 spark_conf_for_adls(spark, dbutils)  # noqa: F821
 

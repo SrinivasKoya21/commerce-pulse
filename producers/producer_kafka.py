@@ -25,7 +25,6 @@ import sys
 import time
 
 from confluent_kafka import Producer
-
 from event_generator import event_stream
 
 TOPIC_CLICKSTREAM = "clickstream"

@@ -1,7 +1,7 @@
 # Databricks job 03 — Gold: business-level aggregates, written as Delta AND
 # as Parquet exports (the Parquet copies feed Snowflake COPY INTO / Snowpipe).
 
-from config import spark_conf_for_adls, SILVER, GOLD
+from config import GOLD, SILVER, spark_conf_for_adls
 from transforms import daily_sales, funnel_daily, user_features
 
 spark_conf_for_adls(spark, dbutils)  # noqa: F821

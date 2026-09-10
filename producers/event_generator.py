@@ -12,8 +12,8 @@ from __future__ import annotations
 import random
 import time
 import uuid
+from collections.abc import Iterator
 from datetime import datetime, timezone
-from typing import Iterator
 
 CATEGORIES = ["electronics", "apparel", "home_kitchen", "beauty", "sports", "books"]
 
@@ -91,12 +91,12 @@ def generate_session() -> Iterator[dict]:
 def event_stream(sessions_per_second: float = 3.0) -> Iterator[dict]:
     """Endless stream of events with jittered pacing."""
     while True:
-        for event in generate_session():
-            yield event
+        yield from generate_session()
         time.sleep(max(0.0, random.gauss(1.0 / sessions_per_second, 0.05)))
 
 
 if __name__ == "__main__":
-    import itertools, json
+    import itertools
+    import json
     for e in itertools.islice(event_stream(sessions_per_second=50), 10):
         print(json.dumps(e))

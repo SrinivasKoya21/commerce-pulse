@@ -11,12 +11,11 @@
 import mlflow
 import mlflow.sklearn
 import pandas as pd
+from config import GOLD, spark_conf_for_adls
 from lightgbm import LGBMClassifier
 from pyspark.sql import functions as F
 from sklearn.metrics import average_precision_score, roc_auc_score
 from sklearn.model_selection import train_test_split
-
-from config import spark_conf_for_adls, GOLD
 
 spark_conf_for_adls(spark, dbutils)  # noqa: F821
 
@@ -37,10 +36,10 @@ X_train, X_val, y_train, y_val = train_test_split(
 mlflow.set_experiment("/Shared/commercepulse-propensity")
 
 with mlflow.start_run(run_name="lgbm_baseline") as run:
-    params = dict(
-        n_estimators=300, learning_rate=0.05, num_leaves=31,
-        class_weight="balanced", random_state=42,
-    )
+    params = {
+        "n_estimators": 300, "learning_rate": 0.05, "num_leaves": 31,
+        "class_weight": "balanced", "random_state": 42,
+    }
     model = LGBMClassifier(**params).fit(X_train, y_train)
 
     proba = model.predict_proba(X_val)[:, 1]

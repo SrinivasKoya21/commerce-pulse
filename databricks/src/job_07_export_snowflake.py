@@ -4,7 +4,8 @@
 # runtimes as `net.snowflake.spark.snowflake`, source name "snowflake").
 # The alternative stage/COPY INTO/Snowpipe path lives in snowflake/02_stage_copy.sql.
 
-from config import spark_conf_for_adls, snowflake_options, GOLD
+from config import GOLD, snowflake_options, spark_conf_for_adls
+from pyspark.errors import AnalysisException
 
 spark_conf_for_adls(spark, dbutils)  # noqa: F821
 sf_opts = snowflake_options(dbutils)  # noqa: F821
@@ -20,7 +21,7 @@ EXPORTS = {
 for path, table in EXPORTS.items():
     try:
         df = spark.read.format("delta").load(path)  # noqa: F821
-    except Exception as exc:  # table may not exist until ML jobs have run
+    except AnalysisException as exc:  # table may not exist until ML jobs have run
         print(f"skip {table}: {exc}")
         continue
 

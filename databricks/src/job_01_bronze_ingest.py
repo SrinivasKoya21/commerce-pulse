@@ -4,7 +4,7 @@
 # if silver logic changes next month, you re-derive everything from bronze
 # without re-reading Kafka (whose retention is only 24h here).
 
-from config import spark_conf_for_adls, kafka_options, BRONZE, CHECKPOINTS
+from config import BRONZE, CHECKPOINTS, kafka_options, spark_conf_for_adls
 
 spark_conf_for_adls(spark, dbutils)  # noqa: F821 (spark/dbutils injected by Databricks)
 
