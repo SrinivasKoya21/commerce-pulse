@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.venv/
+.env*
+!config.example.env
+infra/.env.local
+infra/.env.generated
+dbt/commerce_dbt/target/
+dbt/commerce_dbt/dbt_packages/
+dbt/commerce_dbt/logs/
+.databricks/
+*.tde
+*.hyper
+.DS_Store

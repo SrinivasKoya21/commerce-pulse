@@ -1,0 +1,20 @@
+version: 2
+
+sources:
+  - name: raw
+    database: COMMERCEPULSE
+    schema: RAW
+    description: Gold-layer exports loaded from Databricks (Spark connector / Snowpipe).
+    freshness:
+      warn_after: {count: 36, period: hour}
+      error_after: {count: 72, period: hour}
+    loaded_at_field: LOADED_AT
+    tables:
+      - name: raw_daily_sales
+        description: Daily revenue/orders/units per product category.
+      - name: raw_funnel_daily
+        description: Daily counts of each funnel step from the clickstream.
+      - name: raw_review_sentiment
+        description: Amazon reviews scored by DistilBERT sentiment in Databricks.
+      - name: raw_user_propensity
+        description: Per-user purchase-propensity scores from the MLflow model.

@@ -1,0 +1,27 @@
+# CD — deploy the Databricks Asset Bundle when main changes.
+# Needs repo secrets: DATABRICKS_HOST, DATABRICKS_TOKEN
+name: deploy-databricks
+
+on:
+  push:
+    branches: [main]
+    paths: ["databricks/**"]
+  workflow_dispatch:      # manual "Deploy now" button
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: dev       # add required reviewers here for a prod target
+    defaults:
+      run: {working-directory: databricks}
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: databricks/setup-cli@main
+      - run: databricks bundle validate -t dev
+      - run: databricks bundle deploy -t dev
+      - name: Smoke-run batch pipeline
+        if: github.event_name == 'workflow_dispatch'
+        run: databricks bundle run -t dev batch_pipeline

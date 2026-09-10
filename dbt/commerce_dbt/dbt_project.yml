@@ -1,0 +1,20 @@
+name: commerce_dbt
+version: "1.0.0"
+profile: commerce_dbt
+
+model-paths: ["models"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: target
+clean-targets: [target, dbt_packages]
+
+models:
+  commerce_dbt:
+    staging:
+      +materialized: view        # thin renames/casts — views are free
+      +schema: staging
+    marts:
+      +materialized: table       # BI-facing — tables for snappy Tableau
+      +schema: marts

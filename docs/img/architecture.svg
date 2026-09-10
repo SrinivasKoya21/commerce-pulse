@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1480 760" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+    </marker>
+    <marker id="arrB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#2563eb"/>
+    </marker>
+  </defs>
+
+  <rect width="1480" height="760" fill="#f8fafc"/>
+  <text x="740" y="46" text-anchor="middle" font-size="28" font-weight="700" fill="#0f172a">CommercePulse — Real-Time E-Commerce Analytics &amp; ML Platform</text>
+  <text x="740" y="74" text-anchor="middle" font-size="15" fill="#64748b">Azure · Event Hubs (Kafka) · Databricks · PySpark · Delta Lake · HuggingFace · MLflow · Snowflake · dbt · Tableau · GitHub Actions</text>
+
+  <!-- Azure boundary -->
+  <rect x="40" y="100" width="920" height="470" rx="14" fill="#eff6ff" stroke="#93c5fd" stroke-width="2" stroke-dasharray="8 5"/>
+  <text x="64" y="132" font-size="16" font-weight="700" fill="#1d4ed8">MICROSOFT AZURE</text>
+
+  <!-- Sources -->
+  <rect x="60" y="180" width="180" height="92" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="150" y="212" text-anchor="middle" font-size="14.5" font-weight="700" fill="#0f172a">Python Event</text>
+  <text x="150" y="231" text-anchor="middle" font-size="14.5" font-weight="700" fill="#0f172a">Generator</text>
+  <text x="150" y="253" text-anchor="middle" font-size="12" fill="#64748b">clickstream + orders</text>
+
+  <rect x="60" y="420" width="180" height="92" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="150" y="452" text-anchor="middle" font-size="14.5" font-weight="700" fill="#0f172a">HuggingFace</text>
+  <text x="150" y="471" text-anchor="middle" font-size="14.5" font-weight="700" fill="#0f172a">Amazon Reviews</text>
+  <text x="150" y="493" text-anchor="middle" font-size="12" fill="#64748b">millions of real reviews</text>
+
+  <!-- Event Hubs -->
+  <rect x="300" y="168" width="190" height="116" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="395" y="200" text-anchor="middle" font-size="15" font-weight="700" fill="#1e3a8a">Azure Event Hubs</text>
+  <text x="395" y="221" text-anchor="middle" font-size="12.5" fill="#1e40af">Kafka protocol · SASL_SSL</text>
+  <text x="395" y="243" text-anchor="middle" font-size="12.5" fill="#1e40af">topics: clickstream, orders</text>
+  <text x="395" y="264" text-anchor="middle" font-size="12.5" fill="#1e40af">4 partitions each</text>
+
+  <!-- Databricks -->
+  <rect x="550" y="140" width="390" height="400" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="745" y="170" text-anchor="middle" font-size="15.5" font-weight="700" fill="#9a3412">AZURE DATABRICKS · PySpark</text>
+
+  <rect x="570" y="188" width="106" height="74" rx="8" fill="#a16207" opacity="0.92"/>
+  <text x="623" y="218" text-anchor="middle" font-size="13.5" font-weight="700" fill="#ffffff">BRONZE</text>
+  <text x="623" y="238" text-anchor="middle" font-size="11" fill="#fef3c7">raw Kafka bytes</text>
+
+  <rect x="700" y="188" width="106" height="74" rx="8" fill="#6b7280" opacity="0.92"/>
+  <text x="753" y="218" text-anchor="middle" font-size="13.5" font-weight="700" fill="#ffffff">SILVER</text>
+  <text x="753" y="238" text-anchor="middle" font-size="11" fill="#f3f4f6">typed · deduped</text>
+
+  <rect x="830" y="188" width="96" height="74" rx="8" fill="#ca8a04" opacity="0.95"/>
+  <text x="878" y="218" text-anchor="middle" font-size="13.5" font-weight="700" fill="#ffffff">GOLD</text>
+  <text x="878" y="238" text-anchor="middle" font-size="11" fill="#fef9c3">aggregates</text>
+
+  <line x1="676" y1="225" x2="700" y2="225" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="806" y1="225" x2="830" y2="225" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+
+  <text x="745" y="292" text-anchor="middle" font-size="12" fill="#9a3412">Delta Lake on ADLS Gen2 · Structured Streaming · MERGE upserts</text>
+
+  <rect x="570" y="316" width="170" height="86" rx="8" fill="#ffffff" stroke="#f97316" stroke-width="1.5"/>
+  <text x="655" y="344" text-anchor="middle" font-size="13.5" font-weight="700" fill="#9a3412">HuggingFace NLP</text>
+  <text x="655" y="364" text-anchor="middle" font-size="11.5" fill="#78716c">DistilBERT sentiment</text>
+  <text x="655" y="382" text-anchor="middle" font-size="11.5" fill="#78716c">pandas UDF · Arrow batches</text>
+
+  <rect x="756" y="316" width="170" height="86" rx="8" fill="#ffffff" stroke="#f97316" stroke-width="1.5"/>
+  <text x="841" y="344" text-anchor="middle" font-size="13.5" font-weight="700" fill="#9a3412">MLflow Model</text>
+  <text x="841" y="364" text-anchor="middle" font-size="11.5" fill="#78716c">LightGBM propensity</text>
+  <text x="841" y="382" text-anchor="middle" font-size="11.5" fill="#78716c">tracking + registry</text>
+
+  <text x="745" y="440" text-anchor="middle" font-size="12.5" font-weight="700" fill="#9a3412">Jobs orchestrated as Databricks Asset Bundles</text>
+  <text x="745" y="460" text-anchor="middle" font-size="11.5" fill="#78716c">01 bronze → 02 silver → 03 gold → 04 reviews → 05 sentiment</text>
+  <text x="745" y="478" text-anchor="middle" font-size="11.5" fill="#78716c">→ 06 train/score → 07 export to Snowflake</text>
+
+  <!-- flows into databricks -->
+  <line x1="240" y1="226" x2="300" y2="226" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <text x="268" y="214" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">Kafka</text>
+  <line x1="490" y1="226" x2="550" y2="226" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <text x="520" y="214" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">stream</text>
+  <line x1="240" y1="466" x2="570" y2="380" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="380" y="448" text-anchor="middle" font-size="11" fill="#64748b" font-weight="700">batch load</text>
+
+  <!-- Snowflake -->
+  <rect x="1010" y="168" width="200" height="150" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+  <text x="1110" y="200" text-anchor="middle" font-size="15" font-weight="700" fill="#075985">SNOWFLAKE</text>
+  <text x="1110" y="224" text-anchor="middle" font-size="12" fill="#0369a1">RAW schema (loads)</text>
+  <text x="1110" y="244" text-anchor="middle" font-size="12" fill="#0369a1">ANALYTICS schema (dbt)</text>
+  <text x="1110" y="268" text-anchor="middle" font-size="11.5" fill="#0369a1">Spark connector · COPY INTO</text>
+  <text x="1110" y="287" text-anchor="middle" font-size="11.5" fill="#0369a1">Snowpipe · X-Small WH</text>
+
+  <line x1="940" y1="235" x2="1010" y2="235" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrB)"/>
+
+  <!-- dbt -->
+  <rect x="1010" y="360" width="200" height="130" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+  <text x="1110" y="392" text-anchor="middle" font-size="15" font-weight="700" fill="#991b1b">dbt Core</text>
+  <text x="1110" y="415" text-anchor="middle" font-size="12" fill="#b91c1c">staging → marts</text>
+  <text x="1110" y="435" text-anchor="middle" font-size="12" fill="#b91c1c">tests · docs · lineage</text>
+  <text x="1110" y="455" text-anchor="middle" font-size="12" fill="#b91c1c">source freshness</text>
+  <text x="1110" y="475" text-anchor="middle" font-size="12" fill="#b91c1c">slim CI on PRs</text>
+
+  <path d="M1085 318 v42" stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <path d="M1135 360 v-42" stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <text x="1176" y="343" font-size="10.5" fill="#64748b">transform</text>
+
+  <!-- Tableau -->
+  <rect x="1270" y="168" width="170" height="150" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+  <text x="1355" y="200" text-anchor="middle" font-size="15" font-weight="700" fill="#065f46">TABLEAU</text>
+  <text x="1355" y="226" text-anchor="middle" font-size="12" fill="#047857">Revenue trends</text>
+  <text x="1355" y="246" text-anchor="middle" font-size="12" fill="#047857">Funnel conversion</text>
+  <text x="1355" y="266" text-anchor="middle" font-size="12" fill="#047857">Sentiment vs revenue</text>
+  <text x="1355" y="286" text-anchor="middle" font-size="12" fill="#047857">ML segments</text>
+
+  <line x1="1210" y1="235" x2="1270" y2="235" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrB)"/>
+
+  <!-- CI/CD bar -->
+  <rect x="40" y="610" width="1400" height="110" rx="12" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="70" y="646" font-size="15" font-weight="700" fill="#334155">CI/CD — GitHub Actions</text>
+  <text x="70" y="676" font-size="12.5" fill="#475569">• ruff lint + pytest (local SparkSession) on every PR      • dbt slim CI — build only changed models into a PR schema</text>
+  <text x="70" y="700" font-size="12.5" fill="#475569">• Databricks Asset Bundle validate + deploy on merge to main      • secrets in GitHub environments / Databricks secret scopes</text>
+
+  <text x="1280" y="690" font-size="11.5" fill="#94a3b8">github.com/&lt;you&gt;/commerce-pulse</text>
+</svg>

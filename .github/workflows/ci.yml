@@ -1,0 +1,47 @@
+# CI — runs on every push & PR. Three parallel checks:
+#   lint (ruff) | PySpark unit tests (local Spark) | dbt compile + SQL lint
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install ruff
+      - run: ruff check producers databricks/src databricks/tests
+
+  pyspark-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - uses: actions/setup-java@v4
+        with: {distribution: temurin, java-version: "17"}
+      - run: pip install "pyspark==3.5.4" "delta-spark==3.2.1" pytest
+      - name: Run unit tests
+        run: pytest databricks/tests -q
+
+  dbt-compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install dbt-snowflake==1.8.*
+      - name: dbt parse (no warehouse needed)
+        working-directory: dbt/commerce_dbt
+        env:
+          SNOWFLAKE_PASSWORD: dummy
+        run: |
+          mkdir -p ~/.dbt
+          cp profiles.example.yml ~/.dbt/profiles.yml
+          dbt deps
+          dbt parse

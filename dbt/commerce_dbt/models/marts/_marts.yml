@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: fct_daily_revenue
+    description: Daily revenue per category with 7-day rolling average and share.
+    columns:
+      - name: order_date
+        tests: [not_null]
+      - name: product_category
+        tests:
+          - not_null
+          - accepted_values:
+              values: [electronics, apparel, home_kitchen, beauty, sports, books]
+      - name: revenue
+        tests:
+          - not_null
+          - dbt_utils.accepted_range: {min_value: 0}
+
+  - name: fct_funnel_conversion
+    description: Daily funnel step-through rates.
+    columns:
+      - name: event_date
+        tests: [not_null, unique]
+      - name: end_to_end_conversion
+        tests:
+          - dbt_utils.accepted_range: {min_value: 0, max_value: 1}
+
+  - name: fct_category_sentiment
+    description: Category-level sentiment (DistilBERT) joined to revenue.
+    columns:
+      - name: product_category
+        tests: [not_null, unique]
+      - name: pct_positive
+        tests:
+          - dbt_utils.accepted_range: {min_value: 0, max_value: 1}
+      - name: sentiment_status
+        tests:
+          - accepted_values: {values: [HEALTHY, WATCH, 'AT RISK']}
+
+  - name: dim_user_segments
+    description: User segmentation blending behavior and ML propensity.
+    columns:
+      - name: user_id
+        tests: [not_null, unique]
+      - name: propensity_score
+        tests:
+          - dbt_utils.accepted_range: {min_value: 0, max_value: 1}
+      - name: segment
+        tests:
+          - accepted_values:
+              values: [LOYAL, CUSTOMER, HOT_PROSPECT, CART_ABANDONER, BROWSER]

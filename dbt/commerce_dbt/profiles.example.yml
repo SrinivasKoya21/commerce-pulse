@@ -1,0 +1,14 @@
+# Copy to ~/.dbt/profiles.yml and fill in. Never commit real credentials.
+commerce_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "<account_identifier>"        # e.g. abc12345.east-us-2.azure
+      user: "<your_user>"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: CP_TRANSFORM_ROLE
+      warehouse: CP_WH
+      database: COMMERCEPULSE
+      schema: ANALYTICS
+      threads: 4

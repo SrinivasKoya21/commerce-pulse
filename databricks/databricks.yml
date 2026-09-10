@@ -1,0 +1,79 @@
+# Databricks Asset Bundle — deploys CommercePulse jobs as code.
+#   databricks bundle validate
+#   databricks bundle deploy  -t dev
+#   databricks bundle run     -t dev batch_pipeline
+bundle:
+  name: commercepulse
+
+variables:
+  storage_account:
+    description: ADLS Gen2 account name (from infra/azure_setup.sh)
+    default: cpdatalakeXXXX
+  eh_namespace:
+    description: Event Hubs namespace
+    default: cp-events-XXXX
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://<your-workspace>.azuredatabricks.net
+
+resources:
+  jobs:
+    streaming_ingest:
+      name: cp-streaming-ingest
+      tasks:
+        - task_key: bronze
+          spark_python_task:
+            python_file: src/job_01_bronze_ingest.py
+          job_cluster_key: small
+        - task_key: silver
+          depends_on: [{task_key: bronze}]
+          spark_python_task:
+            python_file: src/job_02_silver.py
+          job_cluster_key: small
+      job_clusters: &small_cluster
+        - job_cluster_key: small
+          new_cluster:
+            spark_version: 15.4.x-scala2.12
+            node_type_id: Standard_DS3_v2
+            num_workers: 0                    # single-node: driver does the work
+            spark_conf:
+              spark.databricks.cluster.profile: singleNode
+              spark.master: "local[*]"
+            custom_tags: {ResourceClass: SingleNode, project: commercepulse}
+            spark_env_vars:
+              CP_STORAGE_ACCOUNT: ${var.storage_account}
+              CP_EH_NAMESPACE: ${var.eh_namespace}
+
+    batch_pipeline:
+      name: cp-batch-pipeline
+      schedule:
+        quartz_cron_expression: "0 0 6 * * ?"   # daily 06:00 UTC
+        timezone_id: UTC
+        pause_status: PAUSED                     # unpause only while demoing
+      tasks:
+        - task_key: gold
+          spark_python_task: {python_file: src/job_03_gold.py}
+          job_cluster_key: small
+        - task_key: reviews_load
+          spark_python_task: {python_file: src/job_04_reviews_load.py}
+          job_cluster_key: small
+        - task_key: sentiment
+          depends_on: [{task_key: reviews_load}]
+          spark_python_task: {python_file: src/job_05_sentiment.py}
+          job_cluster_key: small
+        - task_key: train_model
+          depends_on: [{task_key: gold}]
+          spark_python_task: {python_file: src/job_06_train_propensity.py}
+          job_cluster_key: small
+        - task_key: export_snowflake
+          depends_on:
+            - {task_key: gold}
+            - {task_key: sentiment}
+            - {task_key: train_model}
+          spark_python_task: {python_file: src/job_07_export_snowflake.py}
+          job_cluster_key: small
+      job_clusters: *small_cluster

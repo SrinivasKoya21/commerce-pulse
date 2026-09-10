@@ -1,0 +1,41 @@
+# dbt Slim CI — on PRs, build ONLY models that changed (vs. prod manifest)
+# into a throwaway PR schema, run their tests, then drop the schema.
+name: dbt-ci
+
+on:
+  pull_request:
+    paths: ["dbt/**"]
+
+jobs:
+  dbt-slim-ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run: {working-directory: dbt/commerce_dbt}
+    env:
+      SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+      DBT_SCHEMA_SUFFIX: pr_${{ github.event.number }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install dbt-snowflake==1.8.*
+      - name: Configure profile
+        run: |
+          mkdir -p ~/.dbt
+          cp profiles.example.yml ~/.dbt/profiles.yml
+      - run: dbt deps
+      - name: Download prod manifest (state comparison)
+        uses: actions/download-artifact@v4
+        continue-on-error: true          # first run has no prior manifest
+        with: {name: dbt-manifest, path: state}
+      - name: Build changed models only
+        run: |
+          if [ -f state/manifest.json ]; then
+            dbt build --select state:modified+ --state state --fail-fast
+          else
+            dbt build --fail-fast
+          fi
+      - name: Upload manifest for next comparison
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with: {name: dbt-manifest, path: dbt/commerce_dbt/target/manifest.json}
