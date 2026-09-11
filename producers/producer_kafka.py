@@ -42,9 +42,9 @@ def build_producer() -> Producer:
         "sasl.username": "$ConnectionString",
         "sasl.password": conn_str,
         # --- sensible production-ish settings
-        "acks": "all",                    # durability over latency
-        "enable.idempotence": True,       # exactly-once producer semantics
-        "compression.type": "gzip",
+        "acks": "all",   # durability over latency
+        # NOTE: enable.idempotence and compression are NOT supported by
+        # Event Hubs Standard Kafka endpoint (error 43); dedup happens in silver.
         "linger.ms": 50,                  # micro-batching for throughput
         "client.id": "commercepulse-producer",
     }
